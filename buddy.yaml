@@ -1,0 +1,22 @@
+- pipeline: "Build"
+  on: "EVENT"
+  events:
+  - type: "PUSH"
+    refs:
+    - "refs/heads/main"
+  priority: "NORMAL"
+  fail_on_prepare_env_warning: true
+  resources: "DEFAULT"
+  actions:
+  - action: "Execute npm test"
+    type: "BUILD"
+    main_service_name: "Main"
+    docker_image_name: "library/node"
+    docker_image_tag: "16"
+    execute_commands:
+    - "npm install"
+    - "npm run build"
+    volume_mappings:
+    - "/:/buddy/integration-example-buddy-nodejs"
+    cache_base_image: true
+    shell: "BASH"
